@@ -44,6 +44,21 @@ disp(t);
 plot(1:N, Pr, 'k','LineWidth', 2)
 title(["Liczba iteracji: ", t]);
 
+% Czwarty test 
+disp("Rozpoczêcie Czwartego testu")
+figure(4);
+a=rand(20,1);
+b=rand(20,1);
+disp(a);
+disp(b);
+[Pr,t]=ProbRing2(N,a,b);
+disp("Wypisanie ostatecznych prawdopodobieñstw")
+disp(Pr);
+disp("Wypisanie liczby iteracji")
+disp(t);
+plot(1:N, Pr, 'k','LineWidth', 2)
+title(["Liczba iteracji: ", t]);
+
 
 function [Pr,T] = ProbRing2(N,a,b)
     dt=0.3;
