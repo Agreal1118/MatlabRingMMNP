@@ -3,9 +3,8 @@ x=0;
 N=20;
 
 % Pierwszy test
-disp("Rozpoczêcie pierwszego testu")
-a=hilb(N);                       % (:,1); tworzy macierz hilberta o wielko¶ci N
-a=a(:,1);                        % pierwsza kolumna z a
+disp("Rozpoczêcie pierwszego testu - a = const")
+a = 0.4 + zeros(N,1); 
 figure(1);                       % Pisanie po wykresie numer 1
 hold on
 b=0.3 + zeros(N,1);
@@ -18,11 +17,11 @@ plot(1:N, Pr, 'k','LineWidth', 2)
 title(["Liczba iteracji: ", t]);
 
 % Drugi test
-disp("Rozpoczêcie drugiego testu")
+disp("Rozpoczêcie drugiego testu - a = 1/k")
 figure(2);
 a=hilb(N);                       % (:,1); tworzy macierz hilberta o wielko¶ci N
 a=a(:,1);                        % pierwsza kolumna z a
-b=0.5 + zeros(N,1);
+b=0.3 + zeros(N,1);
 [Pr,t]=ProbRing2(N,a,b);
 disp("Wypisanie ostatecznych prawdopodobieñstw")
 disp(Pr);
@@ -32,25 +31,13 @@ plot(1:N, Pr, 'k','LineWidth', 2)
 title(["Liczba iteracji: ", t]);
 
 % Trzeci test
-disp("Rozpoczêcie trzeciego testu")
+disp("Rozpoczêcie trzeciego testu - a = e^(-a*k)")
 figure(3);
-a=0.1 + zeros(N,1);
-b=[0.1, 0.2, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.2, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1];
-[Pr,t]=ProbRing2(N,a,b);
-disp("Wypisanie ostatecznych prawdopodobieñstw")
-disp(Pr);
-disp("Wypisanie liczby iteracji")
-disp(t);
-plot(1:N, Pr, 'k','LineWidth', 2)
-title(["Liczba iteracji: ", t]);
-
-% Czwarty test 
-disp("Rozpoczêcie Czwartego testu")
-figure(4);
-a=rand(20,1);
-b=rand(20,1);
-disp(a);
-disp(b);
+a = zeros(N,1);
+for i=1:N
+    a(i)=exp(-0.5*i);
+end
+b=0.1 + zeros(N,1);
 [Pr,t]=ProbRing2(N,a,b);
 disp("Wypisanie ostatecznych prawdopodobieñstw")
 disp(Pr);
