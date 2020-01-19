@@ -1,18 +1,12 @@
 %{Uklad wielostanowy probabilistyczny 2}%
 x=0;
 function [Pr,T] = ProbRing2(N,a,b)
-    dt=0.3;
+    dt=0.5;
     Pr_curr = 1/N + zeros(N,1);
     diff=1;
     t=0;
     while (diff>1e-10)
-      Pr_prev = Pr_curr;
-
-      h=0.5* (a(N)*Pr_prev(N) + b*Pr_prev(2) - (b+a(1))*Pr_prev(1));
-      Pr_curr(1)+= a(N)*Pr_prev(N) + b*Pr_prev(2) - (b+a(1))*(Pr_prev(1)+h);
-
-      h=0.5* (a(N-1)*Pr_prev(N-1) + b*Pr_prev(1) - (b+a(N))*Pr_prev(N));
-      Pr_curr(N)+= a(N-1)*Pr_prev(N-1) + b*Pr_prev(1) - (b+a(N))*(Pr_prev(N)+h);
+      Pr_prev = Pr_curr;      
       h=0.5* dt*(a(N)*Pr_prev(N) + b*Pr_prev(2) - (b+a(1))*Pr_prev(1));
       Pr_curr(1)+= dt*(a(N)*Pr_prev(N) + b*Pr_prev(2) - (b+a(1))*(Pr_prev(1)+h));
       #disp(h)
@@ -22,8 +16,6 @@ function [Pr,T] = ProbRing2(N,a,b)
       f=@(i) a(i-1)*Pr_prev(i-1) + b*Pr_prev(i+1) - (b+a(i))*Pr_prev(i);
 
       for i=2:(N-1)
-        h=0.5*f(i);
-        Pr_curr(i)+=a(i-1)*Pr_prev(i-1) + b*Pr_prev(i+1) - (b+a(i))*(Pr_prev(i)+h);
         h=0.5*dt*f(i);
         Pr_curr(i)+=dt*(a(i-1)*Pr_prev(i-1) + b*Pr_prev(i+1) - (b+a(i))*(Pr_prev(i)+h));
       end    
@@ -37,15 +29,25 @@ N=20;
 a=hilb(N)(:,1);
 b=0.5;
 [Pr,t]=ProbRing2(N,a,b);
-disp(Pr)
-sum(Pr)
-disp(t)
-plot(1:N, Pr)
+disp(Pr);
+disp(sum(Pr)); # powinno być mniej więcej =1
+disp(t);
+plot(1:N, Pr);
 hold
 
 b=0.1;
 [Pr,t]=ProbRing2(N,a,b);
-disp(Pr)
-sum(Pr)
-disp(t)
-plot(1:N, Pr)
+disp(Pr);
+disp(sum(Pr));
+disp(t);
+plot(1:N, Pr);
+
+N=2:2:40;
+times=zeros(length(N),1);  # czasy dochodzenia do stanu równowagi dla poszczególnych N
+for i=1:length(N)
+  a=hilb(N(i))(:,1);
+  b=0.5;
+  [Pr,t]=ProbRing2(N(i),a,b);
+  times(i)=t;
+endfor
+plot(N,times);
