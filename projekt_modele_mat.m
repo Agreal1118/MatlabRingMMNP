@@ -7,7 +7,7 @@ disp("Rozpoczêcie pierwszego testu - a = const")
 a = 0.4 + zeros(N,1); 
 figure(1);                       % Pisanie po wykresie numer 1
 hold on
-b=0.3 + zeros(N,1);
+b=0.5 + zeros(N,1);
 [Pr,t]=ProbRing2(N,a,b);
 disp("Wypisanie ostatecznych prawdopodobieñstw")
 disp(Pr);                        
@@ -21,7 +21,7 @@ disp("Rozpoczêcie drugiego testu - a = 1/k")
 figure(2);
 a=hilb(N);                       % (:,1); tworzy macierz hilberta o wielko¶ci N
 a=a(:,1);                        % pierwsza kolumna z a
-b=0.3 + zeros(N,1);
+b=0.5 + zeros(N,1);
 [Pr,t]=ProbRing2(N,a,b);
 disp("Wypisanie ostatecznych prawdopodobieñstw")
 disp(Pr);
@@ -37,7 +37,7 @@ a = zeros(N,1);
 for i=1:N
     a(i)=exp(-0.5*i);
 end
-b=0.1 + zeros(N,1);
+b=0.5 + zeros(N,1);
 [Pr,t]=ProbRing2(N,a,b);
 disp("Wypisanie ostatecznych prawdopodobieñstw")
 disp(Pr);
@@ -46,9 +46,50 @@ disp(t);
 plot(1:N, Pr, 'k','LineWidth', 2)
 title(["Liczba iteracji: ", t]);
 
+% test 1
+figure(4);
+N=2:2:40;
+times=zeros(length(N),1);
+for i=1:length(N)
+  a=0.4 + zeros(N(i),1);
+  b=0.5 + zeros(N(i),1);
+  [Pr,t]=ProbRing2(N(i),a,b);
+  times(i)=t;
+end
+plot(N,times)
+
+% test 2
+figure(5);
+N=2:2:40;
+times=zeros(length(N),1);
+for i=1:length(N)
+  a=hilb(N(i));
+  a=a(:,1);
+  b=0.5 + zeros(N(i),1);
+  [Pr,t]=ProbRing2(N(i),a,b);
+  times(i)=t;
+end
+plot(N,times)
+
+% test 3
+figure(6);
+N=2:2:40;
+times=zeros(length(N),1);
+
+for i=1:length(N)
+    a = zeros(N(i),1);
+    for j=1:N(i)
+    a(j)=exp(-0.5*j);
+    end
+  b=0.5 + zeros(N(i),1);
+  [Pr,t]=ProbRing2(N(i),a,b);
+  times(i)=t;
+end
+plot(N,times)
+
 
 function [Pr,T] = ProbRing2(N,a,b)
-    dt=0.3;
+    dt=1;
     Pr_curr = 1/N + zeros(N,1);                         % pr_curr startuje jako wektor 20 warto¶ci 1/20
     diff=1;
     t=0;
